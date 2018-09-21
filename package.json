@@ -1,38 +1,60 @@
 {
   "name": "angular-electron",
+  "productName": "Angular Electron",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
+    "start": "npm run electron:start",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "ng:start": "ng serve",
+    "ng:build": "ng build",
+    "ng:build:prod": "ng build --prod",
+    "ng:test": "ng test",
+    "ng:lint": "ng lint",
+    "ng:e2e": "ng e2e",
+    "ng:serve:electron": "ng serve --port=4201",
+    "electron": "electron .",
+    "electron:start": "cross-env EXEC_METHOD=serve npm-run-all -p ng:serve:electron electron:serve",
+    "electron:serve": "wait-on http-get://localhost:4201/ && electron .",
+    "electron:local": "npm run ng:build:prod && electron .",
+    "electron:build": "npm run ng:build:prod && electron .",
+    "electron:linux": "npm run build:prod && npx electron-builder build --linux",
+    "electron:windows": "npm run build:prod && npx electron-builder build --windows",
+    "electron:mac": "npm run build:prod && npx electron-builder build --mac",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^6.1.0",
-    "@angular/common": "^6.1.0",
-    "@angular/compiler": "^6.1.0",
-    "@angular/core": "^6.1.0",
-    "@angular/forms": "^6.1.0",
-    "@angular/http": "^6.1.0",
-    "@angular/platform-browser": "^6.1.0",
-    "@angular/platform-browser-dynamic": "^6.1.0",
-    "@angular/router": "^6.1.0",
-    "core-js": "^2.5.4",
-    "rxjs": "~6.2.0",
-    "zone.js": "~0.8.26"
+    "electron-compile": "^6.4.3",
+    "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",
+    "@angular/animations": "^6.1.0",
     "@angular/cli": "~6.2.2",
+    "@angular/common": "^6.1.0",
+    "@angular/compiler": "^6.1.0",
     "@angular/compiler-cli": "^6.1.0",
+    "@angular/core": "^6.1.0",
+    "@angular/forms": "^6.1.0",
+    "@angular/http": "^6.1.0",
     "@angular/language-service": "^6.1.0",
+    "@angular/platform-browser": "^6.1.0",
+    "@angular/platform-browser-dynamic": "^6.1.0",
+    "@angular/router": "^6.1.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "codelyzer": "~4.3.0",
+    "core-js": "^2.5.4",
+    "cross-env": "^5.2.0",
+    "electron-forge": "^5.2.2",
+    "electron-prebuilt-compile": "3.0.0",
+    "electron-reload": "^1.2.5",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",
@@ -40,9 +62,45 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "npm-run-all": "^4.1.3",
     "protractor": "~5.4.0",
+    "rxjs": "~6.2.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~2.9.2"
+    "typescript": "~2.9.2",
+    "wait-on": "^3.0.1",
+    "zone.js": "~0.8.26"
+  },
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "npm"
+      },
+      "electronWinstallerConfig": {
+        "name": "angular_electron"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "Angular Electron"
+      }
+    }
   }
 }
