@@ -1,0 +1,7 @@
+{
+  "name": "angular-electron",
+  "productName": "Angular Electron",
+  "version": "1.0.0",
+  "main": "main.js",
+  "private": true
+}
